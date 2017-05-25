@@ -2,5 +2,21 @@
 
 pgerror is a collection of helper functions to use with github.com/lib/pq Postgresql Database driver for Go Programming language.
 
+
+```go
+
+// example use:
+_, err = stmt.Exec(SomeInsertStateMent, params...)
+if err != nil {
+  if pgerror.UniqueViolation(err) {
+    return SomeThingAlreadyExists
+  }
+
+  return err // other cases.
+}
+
+```
+
+err := 
 ### LICENSE
   [MIT](LICENSE).
