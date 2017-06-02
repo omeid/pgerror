@@ -17,7 +17,7 @@ func TestErrorFuncs(t *testing.T) {
 
 		var err error = &pq.Error{Code: code, Message: message}
 
-		if !check(err) {
+		if check(err) == nil {
 			t.Fatalf("Error checker failed for error %s (%s)", code, message)
 		}
 	}
@@ -29,14 +29,14 @@ func TestErrorFuncsNegative(t *testing.T) {
 	var err error = pq.Error{Code: code, Message: "does not exist at all"}
 
 	for message, check := range errorCodeFuncs {
-		if check(err) {
+		if check(err) != nil {
 			t.Fatalf("Error Check for `%s` returned true for invalid error: %s", message, code)
 		}
 	}
 
 }
 
-var errorCodeFuncs = map[string]func(error) bool{
+var errorCodeFuncs = map[string]func(error) *pq.Error{
 	"successful_completion":                 SuccessfulCompletion,
 	"warning":                               Warning,
 	"dynamic_result_sets_returned":          DynamicResultSetsReturned,

@@ -8,7 +8,8 @@ pgerror is a collection of helper functions to use with github.com/lib/pq Postgr
 // example use:
 _, err = stmt.Exec(SomeInsertStateMent, params...)
 if err != nil {
-  if pgerror.UniqueViolation(err) {
+  if e := pgerror.UniqueViolation(err); e == nil {
+  // you can use e here to check the fields et al
     return SomeThingAlreadyExists
   }
 
